@@ -19,10 +19,9 @@ const EventLog = () => {
             .then(result => {
                 console.log('Connected!');
 
-                connection.on('ReceiveCloudEvent', cloudEvent => {
+                connection.on('ReceiveCloudEvent', message => {
                     const updatedEventLog = [...latestEventLog.current];
-                    updatedEventLog.push(cloudEvent);
-                    console.log(cloudEvent);
+                    updatedEventLog.push(message);
                 
                     setEventLog(updatedEventLog);
                 });

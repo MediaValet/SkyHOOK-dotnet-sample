@@ -1,4 +1,3 @@
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 import React from 'react';
 
 import Message from './AssetMediaFileAddedEvent/AssetMediaFileAddedEvent';
@@ -12,7 +11,7 @@ const EventLogWindow = (props) => {
             filename={m.data.fileName}
             imageUrl={m.data.mediaFileBlobUrl}/>);
 
-    return(
+        return(
         <div>
             {eventLog}
         </div>
