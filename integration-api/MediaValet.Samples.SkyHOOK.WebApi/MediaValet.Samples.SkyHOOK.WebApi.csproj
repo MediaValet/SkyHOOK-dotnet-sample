@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Hubs\Clients\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hubs\Clients\" />
+  </ItemGroup>
 </Project>

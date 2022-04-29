@@ -1,4 +1,5 @@
 ﻿using MediaValet.Samples.SkyHOOK.WebApi.Hubs;
+using MediaValet.Samples.SkyHOOK.WebApi.Hubs.Clients;
 using MediaValet.Samples.SkyHOOK.WebApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +25,11 @@ namespace MediaValet.Samples.SkyHOOK.WebApi.Controllers
             => HttpContext.Request.Headers["aeg-event-type"].FirstOrDefault() ==
                "Notification";
 
-        private readonly IHubContext<CloudEventsHub> _hubContext;
+        private readonly IHubContext<CloudEventsHub, IEventViewer> _hubContext;
 
         #endregion
         
-        public EventsController(IHubContext<CloudEventsHub> cloudEventsHubContext)
+        public EventsController(IHubContext<CloudEventsHub, IEventViewer> cloudEventsHubContext)
         {
             this._hubContext = cloudEventsHubContext;
         }
@@ -49,13 +50,13 @@ namespace MediaValet.Samples.SkyHOOK.WebApi.Controllers
                 headers.Add("WebHook-Request-Rate", webhookRequestRate);
                 HttpContext.Response.Headers.Add("WebHook-Allowed-Rate", "*");
                 HttpContext.Response.Headers.Add("WebHook-Allowed-Origin", webhookRequestOrigin);
-                await this._hubContext.Clients.All.SendAsync(
-                    "gridupdate",
-                    Guid.Empty.ToString(),
-                    "Options",
-                    "Handshake",
-                    DateTime.Now.ToLongTimeString(),
-                    JsonConvert.SerializeObject(headers));
+                //await this._hubContext.Clients.All.ReceiveCloudEvent(
+                //    "gridupdate",
+                //    Guid.Empty.ToString(),
+                //    "Options",
+                //    "Handshake",
+                //    DateTime.Now.ToLongTimeString(),
+                //    JsonConvert.SerializeObject(headers));
             }
 
             return Ok();
@@ -87,17 +88,10 @@ namespace MediaValet.Samples.SkyHOOK.WebApi.Controllers
 
         private async Task<IActionResult> HandleCloudEvent(string jsonContent)
         {
-            var details = JsonConvert.DeserializeObject<CloudEvent<dynamic>>(jsonContent);
+            var details = JsonConvert.DeserializeObject<CloudEvent<AssetMediaFileAddedEvent>>(jsonContent);
             var eventData = JObject.Parse(jsonContent);
 
-            await this._hubContext.Clients.All.SendAsync(
-                "CloudEventTriggered",
-                details.Id,
-                details.Type,
-                details.Subject,
-                details.Time,
-                eventData.ToString()
-            );
+            await this._hubContext.Clients.All.ReceiveCloudEvent(details);
 
             return Ok();
         }

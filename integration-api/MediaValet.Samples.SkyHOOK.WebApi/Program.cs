@@ -1,4 +1,4 @@
-using MediaValet.Samples.SkyHOOK.WebApi.Hubs;
+﻿using MediaValet.Samples.SkyHOOK.WebApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ClientPermission", policy =>
+    {
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins("http://localhost:3000")
+            .AllowCredentials();
+    });
+});
 
 var app = builder.Build();
 
@@ -20,13 +30,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("ClientPermission");
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.UseEndpoints( endpoints =>
 {
-    endpoints.MapHub<CloudEventsHub>("/hubs/cloudeventshub");
+    endpoints.MapHub<CloudEventsHub>("/hubs/cloudevents");
     endpoints.MapControllers();
 });
 
