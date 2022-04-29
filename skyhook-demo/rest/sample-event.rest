@@ -1,0 +1,23 @@
+POST https://localhost:5001/api/events HTTP/1.1
+content-type: application/json
+
+{
+  "id": "b2f7388d-d341-4963-b8c6-cd1d54e2bdc6",
+  "source": "b0a57d25-dd57-4a19-90cf-0e1d03f1851d",
+  "type": "Asset.MediaFileAdded",
+  "data": {
+    "LibraryId": "67329e4a-56d0-45e3-8ded-bf3a94e6f09b",
+    "AssetId": "67b74a7b-1149-42fd-8a2d-dcf00af0aa9b",
+    "Version": 1,
+    "FileName": "Panigale-V4R-Red-MY19-Ambience-02-Gallery-1920x1080.jpg",
+    "FileSize": 837303,
+    "Reason": "FromUploadProcess",
+    "CreatedAt": "2022-03-23T20:36:41.979214-07:00",
+    "MediaFileBlobUrl": "https://mvdataappstorageqa.blob.core.windows.net/medialibrary-67329e4a56d045e38dedbf3a94e6f09b/67b74a7b114942fd8a2ddcf00af0aa9b/67b74a7b114942fd8a2ddcf00af0aa9b/Original/Panigale-V4R-Red-MY19-Ambience-02-Gallery-1920x1080.jpg?sv=2020-08-04&ss=b&srt=o&se=2022-03-25T03%3A36%3A44Z&sp=r&sig=6VV66Q4iAmp4WV5mckgA6epNWwykyOGeIVa08I83vAM%3D"
+  },
+  "time": "2022-03-23T20:36:44.5110914-07:00",
+  "specversion": "1.0",
+  "dataschema": "#",
+  "subject": "/library/b0a57d25-dd57-4a19-90cf-0e1d03f1851d/assets/67b74a7b-1149-42fd-8a2d-dcf00af0aa9b/MediaFile.FromUploadProcess",
+  "contenttype": "application/json"
+}
